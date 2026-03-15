@@ -455,40 +455,45 @@ function toggleAIPanel(show) {
     }
 }
 
-function sendAIMessage() {
+async function sendAIMessage() {
     const input = $('#ai-input');
     const text = input.value.trim();
     if (!text) return;
 
     const chat = $('#ai-chat');
+    const sendBtn = $('#ai-send-btn');
 
     chat.innerHTML += `<div class="ai-message user">${escapeHtml(text)}</div>`;
     input.value = '';
-
-    setTimeout(() => {
-        const vibes = [...state.selectedVibes].join(', ') || '없음';
-        const place = state.recommendedPlaces[state.currentSpotIndex];
-        const response = generateAIResponse(text, vibes, place);
-        chat.innerHTML += `<div class="ai-message">${response}</div>`;
-        chat.scrollTop = chat.scrollHeight;
-    }, 800);
-
     chat.scrollTop = chat.scrollHeight;
-}
 
-function generateAIResponse(question, vibes, currentPlace) {
-    const q = question.toLowerCase();
+    // 로딩 표시
+    const loadingId = 'ai-loading-' + Date.now();
+    chat.innerHTML += `<div class="ai-message" id="${loadingId}">...</div>`;
+    sendBtn.disabled = true;
+    chat.scrollTop = chat.scrollHeight;
 
-    if (q.includes('추천') || q.includes('다른')) {
-        return `선택하신 바이브(${vibes})를 기반으로 더 찾아볼게요! 현재 ${state.recommendedPlaces.length}개의 장소를 추천해드렸는데, 조건을 더 알려주시면 더 정확한 추천이 가능해요.`;
+    try {
+        const res = await fetch('/api/ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                message: text,
+                vibes: [...state.selectedVibes].join(', ') || '없음',
+                places: state.recommendedPlaces,
+                currentPlace: state.recommendedPlaces[state.currentSpotIndex] || null,
+            }),
+        });
+
+        const data = await res.json();
+        const reply = data.reply || '답변을 가져오지 못했어요.';
+        document.getElementById(loadingId).textContent = reply;
+    } catch (err) {
+        document.getElementById(loadingId).textContent = '오류가 발생했어요. 다시 시도해주세요.';
+    } finally {
+        sendBtn.disabled = false;
+        chat.scrollTop = chat.scrollHeight;
     }
-    if (q.includes('주차') || q.includes('교통')) {
-        return `${currentPlace ? currentPlace.name : '선택된 장소'}의 주차 정보는 현재 확인 중이에요. 대중교통 이용을 추천드립니다!`;
-    }
-    if (q.includes('예약') || q.includes('영업')) {
-        return `${currentPlace ? currentPlace.name : '선택된 장소'}의 예약 여부와 영업시간은 직접 문의가 필요해요. 전화번호를 찾아드릴까요?`;
-    }
-    return `좋은 질문이에요! "${escapeHtml(question)}"에 대해 더 알아보고 답변드릴게요. 현재 ${vibes} 바이브로 추천된 장소들 중에서 궁금한 점이 있으면 구체적으로 물어봐주세요!`;
 }
 
 // ============================================
