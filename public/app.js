@@ -70,6 +70,20 @@ function getUserId() {
 // ============================================
 // 앱 상태
 // ============================================
+const DARK_MAP_STYLES = [
+    { elementType: 'geometry', stylers: [{ color: '#0f0f1a' }] },
+    { elementType: 'labels.text.fill', stylers: [{ color: '#a0a0c0' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#0f0f1a' }] },
+    { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
+    { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#2a2a4a' }] },
+    { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#242444' }] },
+    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#0a0a1a' }] },
+    { featureType: 'poi', elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
+    { featureType: 'poi', elementType: 'labels.text.fill', stylers: [{ color: '#6c6c8a' }] },
+    { featureType: 'transit', elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
+    { featureType: 'administrative', elementType: 'geometry', stylers: [{ color: '#2a2a4a' }] },
+];
+
 const state = {
     selectedVibes: new Set(),
     selectedTastes: new Set(),
@@ -78,6 +92,8 @@ const state = {
     savedPlaceIds: new Set(),
     currentSpotIndex: 0,
     allPlaces: [],
+    map: null,
+    markers: [],
 };
 
 // ============================================
@@ -184,6 +200,8 @@ function bindEvents() {
 
     // 뒤로가기
     $('#back-to-vibe-btn').addEventListener('click', () => {
+        state.map = null;
+        state.markers = [];
         switchScreen('vibe-selection-view');
     });
 
@@ -246,9 +264,18 @@ function requestLocation() {
 // ============================================
 // 메인 화면 전환
 // ============================================
+async function loadMapsAPI() {
+    if (window.google?.maps) return;
+    return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAlqPIt-KhWqCZg78mcu_haU9-GGEBHfLE';
+        script.onload = resolve;
+        document.head.appendChild(script);
+    });
+}
+
 async function transitionToMainView() {
-    await fetchRecommendations();
-    await fetchSavedPlaces();
+    await Promise.all([loadMapsAPI(), fetchRecommendations(), fetchSavedPlaces()]);
     renderMainView();
     switchScreen('main-view');
 }
@@ -302,56 +329,59 @@ function renderMainView() {
     }
 }
 
-function renderMap() {
-    const container = $('#map-display');
-    const loc = state.userLocation;
-    const firstPlace = state.recommendedPlaces[0];
-    const lat = firstPlace ? firstPlace.lat : loc.lat;
-    const lng = firstPlace ? firstPlace.lng : loc.lng;
-
-    container.innerHTML = `
-        <div class="map-placeholder" id="map-canvas" style="
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            position: relative;
-            overflow: hidden;
-        ">
-            <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div style="font-size: 48px; margin-bottom: 12px;">🗺️</div>
-                <div style="color: #a0a0c0; font-size: 14px; text-align: center;">
-                    ${state.recommendedPlaces.length}개의 추천 장소<br>
-                    <span style="font-size: 12px; color: #6c6c8a;">위치: ${lat.toFixed(4)}, ${lng.toFixed(4)}</span>
-                </div>
-            </div>
-            ${renderMapMarkers()}
-        </div>
-    `;
+function makeMarkerIcon(emoji, selected) {
+    const fill = selected ? '#6C5CE7' : '#1A1A2E';
+    const stroke = selected ? '#A29BFE' : '#2A2A4A';
+    const size = selected ? 48 : 40;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size * 1.3}" viewBox="0 0 40 52">
+        <path d="M20 0 C9 0 0 9 0 20 C0 34 20 52 20 52 C20 52 40 34 40 20 C40 9 31 0 20 0 Z" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
+        <text x="20" y="24" text-anchor="middle" dominant-baseline="middle" font-size="18">${emoji}</text>
+    </svg>`;
+    return {
+        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
+        scaledSize: new google.maps.Size(size, size * 1.3),
+        anchor: new google.maps.Point(size / 2, size * 1.3),
+    };
 }
 
-function renderMapMarkers() {
-    return state.recommendedPlaces.map((place, i) => {
-        const offsetX = 20 + (i * 25) % 60;
-        const offsetY = 15 + (i * 35) % 50;
-        return `<div class="map-marker" data-index="${i}" style="
-            position: absolute;
-            left: ${offsetX}%;
-            top: ${offsetY}%;
-            width: 36px;
-            height: 36px;
-            background: ${i === state.currentSpotIndex ? '#6C5CE7' : '#242444'};
-            border: 2px solid ${i === state.currentSpotIndex ? '#A29BFE' : '#2A2A4A'};
-            border-radius: 50% 50% 50% 0;
-            transform: rotate(-45deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            z-index: ${i === state.currentSpotIndex ? 10 : 1};
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        ">
-            <span style="transform: rotate(45deg); font-size: 14px;">${place.emoji}</span>
-        </div>`;
-    }).join('');
+function renderMap() {
+    const container = $('#map-display');
+    const place = state.recommendedPlaces[state.currentSpotIndex];
+    const center = place
+        ? { lat: place.lat, lng: place.lng }
+        : state.userLocation || { lat: 37.5665, lng: 126.9780 };
+
+    if (!state.map) {
+        container.innerHTML = '<div id="map-canvas" style="width:100%;height:100%;"></div>';
+        state.map = new google.maps.Map($('#map-canvas'), {
+            center,
+            zoom: 15,
+            styles: DARK_MAP_STYLES,
+            disableDefaultUI: true,
+            gestureHandling: 'greedy',
+            zoomControl: true,
+            zoomControlOptions: { position: google.maps.ControlPosition.LEFT_BOTTOM },
+        });
+
+        state.markers = state.recommendedPlaces.map((p, i) => {
+            const marker = new google.maps.Marker({
+                position: { lat: p.lat, lng: p.lng },
+                map: state.map,
+                title: p.name,
+                icon: makeMarkerIcon(p.emoji, i === state.currentSpotIndex),
+                zIndex: i === state.currentSpotIndex ? 10 : 1,
+            });
+            marker.addListener('click', () => selectPlace(i));
+            return marker;
+        });
+    } else {
+        state.markers.forEach((marker, i) => {
+            const p = state.recommendedPlaces[i];
+            marker.setIcon(makeMarkerIcon(p.emoji, i === state.currentSpotIndex));
+            marker.setZIndex(i === state.currentSpotIndex ? 10 : 1);
+        });
+        state.map.panTo(center);
+    }
 }
 
 function renderBusinessList() {
