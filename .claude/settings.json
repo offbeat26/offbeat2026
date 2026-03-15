@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv index.html public/)",
+      "Bash(mv styles.css public/)",
+      "Bash(mv app.js public/)"
+    ]
+  }
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vibe Spot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 화면 1: 바이브 선택창 -->
+    <div id="vibe-selection-view" class="screen active">
+        <div class="screen-header">
+            <h1>Find Your Spot</h1>
+            <p class="subtitle">분위기와 취향을 선택하세요</p>
+        </div>
+
+        <!-- #VIBE-view -->
+        <section id="vibe-view" class="selection-section">
+            <h2 class="section-title">#VIBE</h2>
+            <div id="vibe-buttons" class="tag-grid">
+                <!-- 바이브 버튼들이 동적으로 생성됨 -->
+            </div>
+        </section>
+
+        <!-- #TASTE-view -->
+        <section id="taste-view" class="selection-section">
+            <h2 class="section-title">#TASTE</h2>
+            <div id="taste-buttons" class="tag-grid">
+                <!-- 테이스트 버튼들이 동적으로 생성됨 -->
+            </div>
+        </section>
+
+        <!-- Apply-view -->
+        <section id="apply-view" class="apply-section">
+            <button id="apply-btn" class="apply-btn" disabled>Apply</button>
+        </section>
+    </div>
+
+    <!-- 위치 승인 팝업 -->
+    <div id="location-popup" class="popup-overlay hidden">
+        <div class="popup-card">
+            <div class="popup-icon">📍</div>
+            <h3>위치 정보 사용</h3>
+            <p>맞춤 장소 추천을 위해<br>위치 정보 접근을 허용해주세요.</p>
+            <div class="popup-actions">
+                <button id="location-deny" class="popup-btn popup-btn-secondary">거부</button>
+                <button id="location-allow" class="popup-btn popup-btn-primary">허용</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 화면 2: 메인 (지도 + 리스트) -->
+    <div id="main-view" class="screen">
+        <!-- Map-view -->
+        <div id="map-view" class="map-container">
+            <div id="map-display" class="map-display">
+                <div id="map-placeholder" class="map-placeholder">
+                    <span>지도 로딩 중...</span>
+                </div>
+            </div>
+            <button id="personal-ai-btn" class="personal-ai-btn">
+                <span class="ai-icon">✦</span> Personal AI
+            </button>
+        </div>
+
+        <!-- Untitled-view (출력 중심 영역 + 리스트) -->
+        <div id="content-view" class="content-container">
+            <!-- 출력 중심 영역-view -->
+            <div id="output-area" class="output-area">
+                <div id="spot-display" class="spot-display">
+                    <h2 id="spot-name">추천 장소</h2>
+                    <p id="spot-description" class="spot-desc"></p>
+                </div>
+                <button id="making-yours-btn" class="making-yours-btn">
+                    ♡ Making yours
+                </button>
+            </div>
+
+            <!-- List 그룹-view -->
+            <div id="list-group-view" class="list-group">
+                <h3 class="list-title">추천 리스트</h3>
+                <div id="business-list" class="business-list">
+                    <!-- 업체 A-view 들이 동적으로 생성됨 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 하단 바이브 재선택 버튼 -->
+        <button id="back-to-vibe-btn" class="back-btn">
+            ← 바이브 다시 선택
+        </button>
+    </div>
+
+    <!-- AI 채팅 패널 -->
+    <div id="ai-panel" class="ai-panel hidden">
+        <div class="ai-panel-header">
+            <h3>✦ Personal AI</h3>
+            <button id="ai-close-btn" class="ai-close-btn">✕</button>
+        </div>
+        <div id="ai-chat" class="ai-chat">
+            <div class="ai-message">
+                안녕하세요! 선택하신 바이브에 맞는 장소를 더 자세히 추천해드릴게요. 궁금한 점이 있으면 물어보세요.
+            </div>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" id="ai-input" placeholder="장소에 대해 물어보세요..." />
+            <button id="ai-send-btn" class="ai-send-btn">→</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
