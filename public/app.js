@@ -28,19 +28,19 @@ const FALLBACK_TASTES = [
 ];
 
 const FALLBACK_PLACES = [
-    { id: '1', name: '달빛정원 카페', category: '카페', rating: 4.7, address: '서울 성수동 12-3', tags: ['로맨틱', '야경'], emoji: '🌙', lat: 37.5445, lng: 127.0567, vibe_ids: ['romantic'] },
-    { id: '2', name: '로즈가든', category: '레스토랑', rating: 4.5, address: '서울 한남동 45-6', tags: ['로맨틱', '데이트'], emoji: '🌹', lat: 37.5340, lng: 127.0026, vibe_ids: ['romantic'] },
-    { id: '3', name: '루프탑 329', category: '바', rating: 4.6, address: '서울 이태원 32-9', tags: ['힙한', '루프탑'], emoji: '🏙️', lat: 37.5345, lng: 126.9940, vibe_ids: ['hip'] },
-    { id: '4', name: '언더그라운드', category: '카페', rating: 4.4, address: '서울 연남동 78-1', tags: ['힙한', '인디'], emoji: '🎵', lat: 37.5660, lng: 126.9245, vibe_ids: ['hip'] },
-    { id: '5', name: '책방 이웃', category: '북카페', rating: 4.8, address: '서울 망원동 34-5', tags: ['아늑한', '독서'], emoji: '📚', lat: 37.5560, lng: 126.9105, vibe_ids: ['cozy'] },
-    { id: '6', name: '솜사탕 하우스', category: '카페', rating: 4.3, address: '서울 연희동 56-7', tags: ['아늑한', '소규모'], emoji: '☁️', lat: 37.5680, lng: 126.9290, vibe_ids: ['cozy'] },
-    { id: '7', name: '비트클럽', category: '클럽', rating: 4.2, address: '서울 홍대 12-8', tags: ['활기찬', '음악'], emoji: '🎶', lat: 37.5563, lng: 126.9237, vibe_ids: ['energetic'] },
-    { id: '8', name: '스포츠펍 에이스', category: '펍', rating: 4.5, address: '서울 강남 89-2', tags: ['활기찬', '스포츠'], emoji: '⚽', lat: 37.4979, lng: 127.0276, vibe_ids: ['energetic'] },
-    { id: '9', name: '선재 찻집', category: '찻집', rating: 4.9, address: '서울 북촌 23-4', tags: ['조용한', '전통'], emoji: '🍵', lat: 37.5826, lng: 126.9831, vibe_ids: ['calm'] },
-    { id: '10', name: '명상 카페 고요', category: '카페', rating: 4.6, address: '서울 삼청동 67-8', tags: ['조용한', '명상'], emoji: '🧘', lat: 37.5850, lng: 126.9817, vibe_ids: ['calm'] },
-    { id: '11', name: '서울숲 브런치', category: '브런치', rating: 4.5, address: '서울 성수동 45-1', tags: ['인기', '브런치'], emoji: '🌿', lat: 37.5445, lng: 127.0370, vibe_ids: ['natural'] },
-    { id: '12', name: '하이드아웃', category: '카페', rating: 4.4, address: '서울 합정동 23-7', tags: ['분위기', '카페'], emoji: '🏡', lat: 37.5496, lng: 126.9136, vibe_ids: ['vintage'] },
-    { id: '13', name: '어반가든', category: '레스토랑', rating: 4.6, address: '서울 이태원 56-3', tags: ['맛집', '양식'], emoji: '🌿', lat: 37.5340, lng: 126.9940, vibe_ids: ['modern'] },
+    { id: '1', name: 'Moonlight Garden Cafe', category: 'Cafe', rating: 4.7, address: 'Seongsu-dong, Seoul', tags: ['Romantic', 'Night View'], emoji: '🌙', lat: 37.5445, lng: 127.0567, vibe_ids: ['romantic'] },
+    { id: '2', name: 'Rose Garden', category: 'Restaurant', rating: 4.5, address: 'Hannam-dong, Seoul', tags: ['Romantic', 'Date'], emoji: '🌹', lat: 37.5340, lng: 127.0026, vibe_ids: ['romantic'] },
+    { id: '3', name: 'Rooftop 329', category: 'Bar', rating: 4.6, address: 'Itaewon, Seoul', tags: ['Hip', 'Rooftop'], emoji: '🏙️', lat: 37.5345, lng: 126.9940, vibe_ids: ['hip'] },
+    { id: '4', name: 'Underground', category: 'Cafe', rating: 4.4, address: 'Yeonnam-dong, Seoul', tags: ['Hip', 'Indie'], emoji: '🎵', lat: 37.5660, lng: 126.9245, vibe_ids: ['hip'] },
+    { id: '5', name: 'Neighbor Bookstore', category: 'Book Cafe', rating: 4.8, address: 'Mangwon-dong, Seoul', tags: ['Cozy', 'Reading'], emoji: '📚', lat: 37.5560, lng: 126.9105, vibe_ids: ['cozy'] },
+    { id: '6', name: 'Cotton Candy House', category: 'Cafe', rating: 4.3, address: 'Yeonhui-dong, Seoul', tags: ['Cozy', 'Small'], emoji: '☁️', lat: 37.5680, lng: 126.9290, vibe_ids: ['cozy'] },
+    { id: '7', name: 'Beat Club', category: 'Club', rating: 4.2, address: 'Hongdae, Seoul', tags: ['Energetic', 'Music'], emoji: '🎶', lat: 37.5563, lng: 126.9237, vibe_ids: ['energetic'] },
+    { id: '8', name: 'Sports Pub Ace', category: 'Pub', rating: 4.5, address: 'Gangnam, Seoul', tags: ['Energetic', 'Sports'], emoji: '⚽', lat: 37.4979, lng: 127.0276, vibe_ids: ['energetic'] },
+    { id: '9', name: 'Sunjae Tea House', category: 'Tea House', rating: 4.9, address: 'Bukchon, Seoul', tags: ['Calm', 'Traditional'], emoji: '🍵', lat: 37.5826, lng: 126.9831, vibe_ids: ['calm'] },
+    { id: '10', name: 'Silence Cafe', category: 'Cafe', rating: 4.6, address: 'Samcheong-dong, Seoul', tags: ['Calm', 'Meditation'], emoji: '🧘', lat: 37.5850, lng: 126.9817, vibe_ids: ['calm'] },
+    { id: '11', name: 'Seoul Forest Brunch', category: 'Brunch', rating: 4.5, address: 'Seongsu-dong, Seoul', tags: ['Popular', 'Brunch'], emoji: '🌿', lat: 37.5445, lng: 127.0370, vibe_ids: ['natural'] },
+    { id: '12', name: 'Hideout', category: 'Cafe', rating: 4.4, address: 'Hapjeong-dong, Seoul', tags: ['Vintage', 'Cafe'], emoji: '🏡', lat: 37.5496, lng: 126.9136, vibe_ids: ['vintage'] },
+    { id: '13', name: 'Urban Garden', category: 'Restaurant', rating: 4.6, address: 'Itaewon, Seoul', tags: ['Modern', 'Western'], emoji: '🌿', lat: 37.5340, lng: 126.9940, vibe_ids: ['modern'] },
 ];
 
 // ============================================
@@ -268,7 +268,7 @@ async function loadMapsAPI() {
     if (window.google?.maps) return;
     return new Promise((resolve) => {
         const script = document.createElement('script');
-        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA6BIq9Nq06E1k6xXSyI-dGpyTuS_u7vEU';
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA6BIq9Nq06E1k6xXSyI-dGpyTuS_u7vEU&language=en&region=KR';
         script.onload = resolve;
         document.head.appendChild(script);
     });
