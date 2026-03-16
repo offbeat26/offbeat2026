@@ -268,7 +268,7 @@ async function loadMapsAPI() {
     if (window.google?.maps) return;
     return new Promise((resolve) => {
         const script = document.createElement('script');
-        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAlqPIt-KhWqCZg78mcu_haU9-GGEBHfLE';
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA6BIq9Nq06E1k6xXSyI-dGpyTuS_u7vEU';
         script.onload = resolve;
         document.head.appendChild(script);
     });
