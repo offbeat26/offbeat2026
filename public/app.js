@@ -2,29 +2,29 @@
 // 하드코딩된 폴백 데이터 (Supabase 연결 실패 시 사용)
 // ============================================
 const FALLBACK_VIBES = [
-    { id: 'romantic', label: '로맨틱', emoji: '💕' },
-    { id: 'hip', label: '힙한', emoji: '🔥' },
-    { id: 'cozy', label: '아늑한', emoji: '🛋️' },
-    { id: 'energetic', label: '활기찬', emoji: '⚡' },
-    { id: 'calm', label: '조용한', emoji: '🌿' },
-    { id: 'vintage', label: '빈티지', emoji: '📷' },
-    { id: 'modern', label: '모던', emoji: '🏙️' },
-    { id: 'natural', label: '자연친화', emoji: '🌳' },
-    { id: 'artistic', label: '예술적', emoji: '🎨' },
-    { id: 'luxury', label: '럭셔리', emoji: '✨' },
+    { id: 'romantic', label: 'Romantic', emoji: '💕' },
+    { id: 'hip', label: 'Hip', emoji: '🔥' },
+    { id: 'cozy', label: 'Cozy', emoji: '🛋️' },
+    { id: 'energetic', label: 'Energetic', emoji: '⚡' },
+    { id: 'calm', label: 'Calm', emoji: '🌿' },
+    { id: 'vintage', label: 'Vintage', emoji: '📷' },
+    { id: 'modern', label: 'Modern', emoji: '🏙️' },
+    { id: 'natural', label: 'Nature', emoji: '🌳' },
+    { id: 'artistic', label: 'Artistic', emoji: '🎨' },
+    { id: 'luxury', label: 'Luxury', emoji: '✨' },
 ];
 
 const FALLBACK_TASTES = [
-    { id: 'coffee', label: '커피', emoji: '☕' },
-    { id: 'dessert', label: '디저트', emoji: '🍰' },
-    { id: 'brunch', label: '브런치', emoji: '🥞' },
-    { id: 'wine', label: '와인/바', emoji: '🍷' },
-    { id: 'korean', label: '한식', emoji: '🍚' },
-    { id: 'japanese', label: '일식', emoji: '🍣' },
-    { id: 'italian', label: '양식', emoji: '🍝' },
-    { id: 'street', label: '스트릿푸드', emoji: '🌮' },
-    { id: 'vegan', label: '비건', emoji: '🥗' },
-    { id: 'bakery', label: '베이커리', emoji: '🥐' },
+    { id: 'coffee', label: 'Coffee', emoji: '☕' },
+    { id: 'dessert', label: 'Dessert', emoji: '🍰' },
+    { id: 'brunch', label: 'Brunch', emoji: '🥞' },
+    { id: 'wine', label: 'Wine & Bar', emoji: '🍷' },
+    { id: 'korean', label: 'Korean', emoji: '🍚' },
+    { id: 'japanese', label: 'Japanese', emoji: '🍣' },
+    { id: 'italian', label: 'Western', emoji: '🍝' },
+    { id: 'street', label: 'Street Food', emoji: '🌮' },
+    { id: 'vegan', label: 'Vegan', emoji: '🥗' },
+    { id: 'bakery', label: 'Bakery', emoji: '🥐' },
 ];
 
 const FALLBACK_PLACES = [
@@ -516,10 +516,10 @@ async function sendAIMessage() {
         });
 
         const data = await res.json();
-        const reply = data.reply || '답변을 가져오지 못했어요.';
+        const reply = data.reply || 'Could not get a response.';
         document.getElementById(loadingId).textContent = reply;
     } catch (err) {
-        document.getElementById(loadingId).textContent = '오류가 발생했어요. 다시 시도해주세요.';
+        document.getElementById(loadingId).textContent = 'Something went wrong. Please try again.';
     } finally {
         sendBtn.disabled = false;
         chat.scrollTop = chat.scrollHeight;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -11,7 +11,7 @@
     <div id="vibe-selection-view" class="screen active">
         <div class="screen-header">
             <h1>Find Your Spot</h1>
-            <p class="subtitle">분위기와 취향을 선택하세요</p>
+            <p class="subtitle">Choose your vibe & taste</p>
         </div>
 
         <!-- #VIBE-view -->
@@ -40,11 +40,11 @@
     <div id="location-popup" class="popup-overlay hidden">
         <div class="popup-card">
             <div class="popup-icon">📍</div>
-            <h3>위치 정보 사용</h3>
-            <p>맞춤 장소 추천을 위해<br>위치 정보 접근을 허용해주세요.</p>
+            <h3>Use Location</h3>
+            <p>Allow location access<br>for personalized recommendations.</p>
             <div class="popup-actions">
-                <button id="location-deny" class="popup-btn popup-btn-secondary">거부</button>
-                <button id="location-allow" class="popup-btn popup-btn-primary">허용</button>
+                <button id="location-deny" class="popup-btn popup-btn-secondary">Deny</button>
+                <button id="location-allow" class="popup-btn popup-btn-primary">Allow</button>
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
         <div id="map-view" class="map-container">
             <div id="map-display" class="map-display">
                 <div id="map-placeholder" class="map-placeholder">
-                    <span>지도 로딩 중...</span>
+                    <span>Loading map...</span>
                 </div>
             </div>
             <button id="personal-ai-btn" class="personal-ai-btn">
@@ -68,7 +68,7 @@
             <!-- 출력 중심 영역-view -->
             <div id="output-area" class="output-area">
                 <div id="spot-display" class="spot-display">
-                    <h2 id="spot-name">추천 장소</h2>
+                    <h2 id="spot-name">Recommended Spot</h2>
                     <p id="spot-description" class="spot-desc"></p>
                 </div>
                 <button id="making-yours-btn" class="making-yours-btn">
@@ -78,7 +78,7 @@
 
             <!-- List 그룹-view -->
             <div id="list-group-view" class="list-group">
-                <h3 class="list-title">추천 리스트</h3>
+                <h3 class="list-title">Recommended Spots</h3>
                 <div id="business-list" class="business-list">
                     <!-- 업체 A-view 들이 동적으로 생성됨 -->
                 </div>
@@ -87,7 +87,7 @@
 
         <!-- 하단 바이브 재선택 버튼 -->
         <button id="back-to-vibe-btn" class="back-btn">
-            ← 바이브 다시 선택
+            ← Change Vibe
         </button>
     </div>
 
@@ -99,11 +99,11 @@
         </div>
         <div id="ai-chat" class="ai-chat">
             <div class="ai-message">
-                안녕하세요! 선택하신 바이브에 맞는 장소를 더 자세히 추천해드릴게요. 궁금한 점이 있으면 물어보세요.
+                Hey! I'll help you find the perfect spot based on your vibe. Ask me anything!
             </div>
         </div>
         <div class="ai-input-area">
-            <input type="text" id="ai-input" placeholder="장소에 대해 물어보세요..." />
+            <input type="text" id="ai-input" placeholder="Ask about a place..." />
             <button id="ai-send-btn" class="ai-send-btn">→</button>
         </div>
     </div>
